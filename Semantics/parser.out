@@ -1,0 +1,347 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Unused terminals:
+
+    IF
+
+Grammar
+
+Rule 0     S' -> program
+Rule 1     program -> MAIN LPAREN variables RPAREN LBRACE command RETURN expression SEMICOLUMN RBRACE
+Rule 2     variables -> ID
+Rule 3     variables -> ID COMMA variables
+Rule 4     command -> ID EQUAL expression
+Rule 5     command -> WHILE LPAREN expression RPAREN LBRACE command RBRACE
+Rule 6     command -> command SEMICOLUMN command
+Rule 7     expression -> ID
+Rule 8     expression -> NUMBER
+Rule 9     expression -> expression OPBIN expression
+
+Terminals, with rules where they appear
+
+COMMA                : 3
+EQUAL                : 4
+ID                   : 2 3 4 7
+IF                   : 
+LBRACE               : 1 5
+LPAREN               : 1 5
+MAIN                 : 1
+NUMBER               : 8
+OPBIN                : 9
+RBRACE               : 1 5
+RETURN               : 1
+RPAREN               : 1 5
+SEMICOLUMN           : 1 6
+WHILE                : 5
+error                : 
+
+Nonterminals, with rules where they appear
+
+command              : 1 5 6 6
+expression           : 1 4 5 9 9
+program              : 0
+variables            : 1 3
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . program
+    (1) program -> . MAIN LPAREN variables RPAREN LBRACE command RETURN expression SEMICOLUMN RBRACE
+
+    MAIN            shift and go to state 2
+
+    program                        shift and go to state 1
+
+state 1
+
+    (0) S' -> program .
+
+
+
+state 2
+
+    (1) program -> MAIN . LPAREN variables RPAREN LBRACE command RETURN expression SEMICOLUMN RBRACE
+
+    LPAREN          shift and go to state 3
+
+
+state 3
+
+    (1) program -> MAIN LPAREN . variables RPAREN LBRACE command RETURN expression SEMICOLUMN RBRACE
+    (2) variables -> . ID
+    (3) variables -> . ID COMMA variables
+
+    ID              shift and go to state 5
+
+    variables                      shift and go to state 4
+
+state 4
+
+    (1) program -> MAIN LPAREN variables . RPAREN LBRACE command RETURN expression SEMICOLUMN RBRACE
+
+    RPAREN          shift and go to state 6
+
+
+state 5
+
+    (2) variables -> ID .
+    (3) variables -> ID . COMMA variables
+
+    RPAREN          reduce using rule 2 (variables -> ID .)
+    COMMA           shift and go to state 7
+
+
+state 6
+
+    (1) program -> MAIN LPAREN variables RPAREN . LBRACE command RETURN expression SEMICOLUMN RBRACE
+
+    LBRACE          shift and go to state 8
+
+
+state 7
+
+    (3) variables -> ID COMMA . variables
+    (2) variables -> . ID
+    (3) variables -> . ID COMMA variables
+
+    ID              shift and go to state 5
+
+    variables                      shift and go to state 9
+
+state 8
+
+    (1) program -> MAIN LPAREN variables RPAREN LBRACE . command RETURN expression SEMICOLUMN RBRACE
+    (4) command -> . ID EQUAL expression
+    (5) command -> . WHILE LPAREN expression RPAREN LBRACE command RBRACE
+    (6) command -> . command SEMICOLUMN command
+
+    ID              shift and go to state 11
+    WHILE           shift and go to state 12
+
+    command                        shift and go to state 10
+
+state 9
+
+    (3) variables -> ID COMMA variables .
+
+    RPAREN          reduce using rule 3 (variables -> ID COMMA variables .)
+
+
+state 10
+
+    (1) program -> MAIN LPAREN variables RPAREN LBRACE command . RETURN expression SEMICOLUMN RBRACE
+    (6) command -> command . SEMICOLUMN command
+
+    RETURN          shift and go to state 13
+    SEMICOLUMN      shift and go to state 14
+
+
+state 11
+
+    (4) command -> ID . EQUAL expression
+
+    EQUAL           shift and go to state 15
+
+
+state 12
+
+    (5) command -> WHILE . LPAREN expression RPAREN LBRACE command RBRACE
+
+    LPAREN          shift and go to state 16
+
+
+state 13
+
+    (1) program -> MAIN LPAREN variables RPAREN LBRACE command RETURN . expression SEMICOLUMN RBRACE
+    (7) expression -> . ID
+    (8) expression -> . NUMBER
+    (9) expression -> . expression OPBIN expression
+
+    ID              shift and go to state 18
+    NUMBER          shift and go to state 19
+
+    expression                     shift and go to state 17
+
+state 14
+
+    (6) command -> command SEMICOLUMN . command
+    (4) command -> . ID EQUAL expression
+    (5) command -> . WHILE LPAREN expression RPAREN LBRACE command RBRACE
+    (6) command -> . command SEMICOLUMN command
+
+    ID              shift and go to state 11
+    WHILE           shift and go to state 12
+
+    command                        shift and go to state 20
+
+state 15
+
+    (4) command -> ID EQUAL . expression
+    (7) expression -> . ID
+    (8) expression -> . NUMBER
+    (9) expression -> . expression OPBIN expression
+
+    ID              shift and go to state 18
+    NUMBER          shift and go to state 19
+
+    expression                     shift and go to state 21
+
+state 16
+
+    (5) command -> WHILE LPAREN . expression RPAREN LBRACE command RBRACE
+    (7) expression -> . ID
+    (8) expression -> . NUMBER
+    (9) expression -> . expression OPBIN expression
+
+    ID              shift and go to state 18
+    NUMBER          shift and go to state 19
+
+    expression                     shift and go to state 22
+
+state 17
+
+    (1) program -> MAIN LPAREN variables RPAREN LBRACE command RETURN expression . SEMICOLUMN RBRACE
+    (9) expression -> expression . OPBIN expression
+
+    SEMICOLUMN      shift and go to state 23
+    OPBIN           shift and go to state 24
+
+
+state 18
+
+    (7) expression -> ID .
+
+    SEMICOLUMN      reduce using rule 7 (expression -> ID .)
+    OPBIN           reduce using rule 7 (expression -> ID .)
+    RETURN          reduce using rule 7 (expression -> ID .)
+    RBRACE          reduce using rule 7 (expression -> ID .)
+    RPAREN          reduce using rule 7 (expression -> ID .)
+
+
+state 19
+
+    (8) expression -> NUMBER .
+
+    SEMICOLUMN      reduce using rule 8 (expression -> NUMBER .)
+    OPBIN           reduce using rule 8 (expression -> NUMBER .)
+    RETURN          reduce using rule 8 (expression -> NUMBER .)
+    RBRACE          reduce using rule 8 (expression -> NUMBER .)
+    RPAREN          reduce using rule 8 (expression -> NUMBER .)
+
+
+state 20
+
+    (6) command -> command SEMICOLUMN command .
+    (6) command -> command . SEMICOLUMN command
+
+  ! shift/reduce conflict for SEMICOLUMN resolved as shift
+    RETURN          reduce using rule 6 (command -> command SEMICOLUMN command .)
+    RBRACE          reduce using rule 6 (command -> command SEMICOLUMN command .)
+    SEMICOLUMN      shift and go to state 14
+
+  ! SEMICOLUMN      [ reduce using rule 6 (command -> command SEMICOLUMN command .) ]
+
+
+state 21
+
+    (4) command -> ID EQUAL expression .
+    (9) expression -> expression . OPBIN expression
+
+    RETURN          reduce using rule 4 (command -> ID EQUAL expression .)
+    SEMICOLUMN      reduce using rule 4 (command -> ID EQUAL expression .)
+    RBRACE          reduce using rule 4 (command -> ID EQUAL expression .)
+    OPBIN           shift and go to state 24
+
+
+state 22
+
+    (5) command -> WHILE LPAREN expression . RPAREN LBRACE command RBRACE
+    (9) expression -> expression . OPBIN expression
+
+    RPAREN          shift and go to state 25
+    OPBIN           shift and go to state 24
+
+
+state 23
+
+    (1) program -> MAIN LPAREN variables RPAREN LBRACE command RETURN expression SEMICOLUMN . RBRACE
+
+    RBRACE          shift and go to state 26
+
+
+state 24
+
+    (9) expression -> expression OPBIN . expression
+    (7) expression -> . ID
+    (8) expression -> . NUMBER
+    (9) expression -> . expression OPBIN expression
+
+    ID              shift and go to state 18
+    NUMBER          shift and go to state 19
+
+    expression                     shift and go to state 27
+
+state 25
+
+    (5) command -> WHILE LPAREN expression RPAREN . LBRACE command RBRACE
+
+    LBRACE          shift and go to state 28
+
+
+state 26
+
+    (1) program -> MAIN LPAREN variables RPAREN LBRACE command RETURN expression SEMICOLUMN RBRACE .
+
+    $end            reduce using rule 1 (program -> MAIN LPAREN variables RPAREN LBRACE command RETURN expression SEMICOLUMN RBRACE .)
+
+
+state 27
+
+    (9) expression -> expression OPBIN expression .
+    (9) expression -> expression . OPBIN expression
+
+  ! shift/reduce conflict for OPBIN resolved as shift
+    SEMICOLUMN      reduce using rule 9 (expression -> expression OPBIN expression .)
+    RETURN          reduce using rule 9 (expression -> expression OPBIN expression .)
+    RBRACE          reduce using rule 9 (expression -> expression OPBIN expression .)
+    RPAREN          reduce using rule 9 (expression -> expression OPBIN expression .)
+    OPBIN           shift and go to state 24
+
+  ! OPBIN           [ reduce using rule 9 (expression -> expression OPBIN expression .) ]
+
+
+state 28
+
+    (5) command -> WHILE LPAREN expression RPAREN LBRACE . command RBRACE
+    (4) command -> . ID EQUAL expression
+    (5) command -> . WHILE LPAREN expression RPAREN LBRACE command RBRACE
+    (6) command -> . command SEMICOLUMN command
+
+    ID              shift and go to state 11
+    WHILE           shift and go to state 12
+
+    command                        shift and go to state 29
+
+state 29
+
+    (5) command -> WHILE LPAREN expression RPAREN LBRACE command . RBRACE
+    (6) command -> command . SEMICOLUMN command
+
+    RBRACE          shift and go to state 30
+    SEMICOLUMN      shift and go to state 14
+
+
+state 30
+
+    (5) command -> WHILE LPAREN expression RPAREN LBRACE command RBRACE .
+
+    RETURN          reduce using rule 5 (command -> WHILE LPAREN expression RPAREN LBRACE command RBRACE .)
+    SEMICOLUMN      reduce using rule 5 (command -> WHILE LPAREN expression RPAREN LBRACE command RBRACE .)
+    RBRACE          reduce using rule 5 (command -> WHILE LPAREN expression RPAREN LBRACE command RBRACE .)
+
+WARNING: 
+WARNING: Conflicts:
+WARNING: 
+WARNING: shift/reduce conflict for SEMICOLUMN in state 20 resolved as shift
+WARNING: shift/reduce conflict for OPBIN in state 27 resolved as shift
